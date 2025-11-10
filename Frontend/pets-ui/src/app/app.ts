@@ -4,6 +4,9 @@ import { HeaderComponent } from './header/header';
 import { PetListComponent } from './pet-list/pet-list';
 import { PetDetailsComponent } from './pet-details/pet-details';
 import { AdminPanelComponent } from './admin-panel/admin-panel';
+import { Pet } from './models/pet.model';
+
+
 
 @Component({
   selector: 'app-root',
@@ -21,11 +24,11 @@ import { AdminPanelComponent } from './admin-panel/admin-panel';
 export class AppComponent {
   title = 'angular-pet-adoption';
 
-  selectedPet = null;
+  selectedPet: Pet | null = null;
   showPetDetails = false;
   showAdminPanel = false;
 
-  handleViewPetDetails(pet: any): void {
+  handleViewPetDetails(pet: Pet): void {
     this.selectedPet = pet;
     this.showPetDetails = true;
   }

@@ -1,1 +1,61 @@
-<p>pet-details works!</p>
+<div class="drawer" *ngIf="isOpen">
+  <div class="content">
+    <button class="close" (click)="closeModal()">✕</button>
+
+    <img [src]="pet.imageUrl" class="hero-img" />
+
+    <h2 class="title">{{pet.name}}</h2>
+    <p class="sub">{{pet.breed}} • {{pet.age}} yrs</p>
+
+    <div class="tags">
+      <span class="tag">{{pet.size}}</span>
+      <span class="tag">{{pet.temperament}}</span>
+    </div>
+
+    <div class="info">
+      <p><b>Color:</b> {{pet.color}}</p>
+      <p><b>Weight:</b> {{pet.weight}} kg</p>
+      <p><b>Vaccination:</b> {{pet.vaccinationStatus}}</p>
+      <p><b>Medical Notes:</b> {{pet.medicalNotes}}</p>
+      <p><b>House Trained:</b> {{pet.houseTrained}}</p>
+      <p><b>Training Level:</b> {{pet.trainingLevel}}</p>
+      <p><b>Description:</b> {{pet.description}}</p>
+      <p><b>Location:</b> {{pet.location}}</p>
+      <p><b>Fee:</b> ₱{{pet.adoptionFee}}</p>
+    </div>
+    <!-- Additional Details Accordion -->
+    <div class="mt-6 border-t pt-4">
+      <button (click)="showMore = !showMore" class="text-sm font-medium text-blue-600 hover:text-blue-700">
+        Additional Details
+        <span *ngIf="!showMore">▼</span>
+        <span *ngIf="showMore">▲</span>
+      </button>
+
+      <div *ngIf="showMore" class="mt-4 space-y-1 text-sm text-gray-700">
+        <p><strong>Color:</strong> {{ pet.color }}</p>
+        <p><strong>Weight:</strong> {{ pet.weight }} kg</p>
+        <p><strong>Health Status:</strong> {{ pet.healthStatus }}</p>
+        <p><strong>Vaccines:</strong> {{ pet.vaccinationStatus }}</p>
+        <p><strong>Dewormed:</strong> {{ pet.dewormed }}</p>
+        <p><strong>Neutered/Spayed:</strong> {{ pet.neuteredSpayed }}</p>
+        <p><strong>Medical Notes:</strong> {{ pet.medicalNotes }}</p>
+        <p><strong>House Trained:</strong> {{ pet.houseTrained }}</p>
+        <p><strong>Training Level:</strong> {{ pet.trainingLevel }}</p>
+        <p><strong>Intake Date:</strong> {{ pet.intakeDate }}</p>
+        <p><strong>Contact Info:</strong> {{ pet.contactInfo }}</p>
+      </div>
+    </div>
+
+
+    <label class="confirm-line">
+      <input type="checkbox" [(ngModel)]="confirmInterest" />
+      I confirm I wish to adopt "{{pet.name}}"
+    </label>
+
+    <button class="btn" [disabled]="!confirmInterest" (click)="submitInterest()">
+      Yes, Send request
+    </button>
+
+    <div *ngIf="showSent" class="sent">Sent to PetAdopt 🐾</div>
+  </div>
+</div>
