@@ -14,7 +14,9 @@ Open terminal/cmd prompt
 
 ### 1. Clone repo
 cd Documents 
+
 git clone https://github.com/eryni/dog-eat-dog.git
+
 cd dog-eat-dog/Frontend/pets-ui
 
 
