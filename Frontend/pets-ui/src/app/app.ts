@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header';
 import { PetListComponent } from './pet-list/pet-list';
 import { PetDetailsComponent } from './pet-details/pet-details';
-import { AdminPanelComponent } from './admin-panel/admin-panel';
 import { Pet } from './models/pet.model';
 
 
@@ -16,7 +15,6 @@ import { Pet } from './models/pet.model';
     HeaderComponent,
     PetListComponent,
     PetDetailsComponent,
-    AdminPanelComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
