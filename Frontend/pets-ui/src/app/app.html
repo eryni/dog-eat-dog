@@ -1,19 +1,38 @@
 <div class="min-h-screen flex flex-col bg-gray-50">
-
-  <!-- ✅ Always visible header -->
   <app-header></app-header>
 
-  <!-- ✅ Routed pages appear here -->
   <main class="flex-1 container mx-auto px-4 py-8">
+    <section class="text-center mb-12">
+      <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
+        Find Your Perfect
+        <span class="text-blue-600 block">Companion</span>
+      </h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">
+        Give a loving home to pets in need. Browse our available animals and find your new best friend today.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-sm border">
+          <div class="text-3xl font-bold text-blue-600">50+</div>
+          <div class="text-sm text-gray-600">Pets Available</div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-sm border">
+          <div class="text-3xl font-bold text-green-600">200+</div>
+          <div class="text-sm text-gray-600">Happy Adoptions</div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-sm border">
+          <div class="text-3xl font-bold text-blue-600">5+</div>
+          <div class="text-sm text-gray-600">Years Experience</div>
+        </div>
+      </div>
+    </section>
+
     <router-outlet></router-outlet>
   </main>
 
-  <!-- ✅ Always visible footer -->
   <footer class="bg-white border-t mt-16">
     <div class="container mx-auto px-4 py-8 text-center text-gray-600">
       <p class="mb-2">© 2025 PetAdopt. Made with ❤️ for our furry friends.</p>
       <p class="text-sm">Contact us: shelter@example.com | (555) 123-4567</p>
     </div>
   </footer>
-
 </div>

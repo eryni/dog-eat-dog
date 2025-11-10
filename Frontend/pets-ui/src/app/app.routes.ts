@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
-import { PetListComponent } from './pet-list/pet-list';
+import { AboutComponent } from './about/about';     // ✅ ensure this is AboutComponent
+import { ContactComponent } from './contact/contact';
 import { AdminPanelComponent } from './admin-panel/admin-panel';
-import { About } from './about/about';
+import { PetListComponent } from './pet-list/pet-list';
 
 export const routes: Routes = [
   { path: '', component: PetListComponent },
-  { path: 'about', component: About },
-  { path: 'admin', component: AdminPanelComponent }
+  { path: 'about', component: AboutComponent },
+  { path: 'contact', component: ContactComponent },
+  { path: 'admin', component: AdminPanelComponent },
 ];

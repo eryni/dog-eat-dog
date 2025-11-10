@@ -5,10 +5,7 @@ import { HeaderComponent } from './header/header';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet,      // ✅ REQUIRED FOR <router-outlet>
-    HeaderComponent    // ✅ Header is always visible
-  ],
+  imports: [RouterOutlet, HeaderComponent],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

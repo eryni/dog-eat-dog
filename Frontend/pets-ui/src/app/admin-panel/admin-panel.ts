@@ -17,14 +17,13 @@ export class AdminPanelComponent implements OnInit {
 
   showDrawer = false;
   isEditing = false;
-
-  activePetId: number | null = null;  // holds ID only when editing
+  activePetId: number | null = null;
 
   searchTerm = "";
   filterSpecies = "";
   filterStatus = "";
 
-  // ✅ This is used to populate INPUT fields for Add/Edit form
+  // ✅ Form model
   petFormData: PetFormData = {
     name: '',
     breed: '',
@@ -56,15 +55,15 @@ export class AdminPanelComponent implements OnInit {
     this.loadPets();
   }
 
-  /** ✅ GET: Load all pets */
+  /** ✅ Load pets from backend */
   loadPets(): void {
     this.petService.getAllPets().subscribe({
       next: (data) => (this.pets = data),
-      error: (err) => console.error('Error loading pets:', err)
+      error: (err) => console.error("❌ Error loading pets:", err)
     });
   }
 
-  /** ✅ Computed filtering */
+  /** ✅ Filtering logic */
   get filteredPets(): Pet[] {
     return this.pets.filter(p =>
       p.name.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
@@ -73,70 +72,83 @@ export class AdminPanelComponent implements OnInit {
     );
   }
 
-  /** ✅ Open Drawer for Add */
+  /** ✅ Open drawer for ADD */
   openAddDrawer(): void {
     this.resetForm();
     this.isEditing = false;
+    this.activePetId = null;
     this.showDrawer = true;
   }
 
-  /** ✅ Open Drawer for Edit */
-  editPet(pet: Pet): void {
-    this.isEditing = true;
-    this.activePetId = pet.id;
+  /** ✅ Open drawer for EDIT */
+editPet(pet: Pet): void {
+  console.log("✏️ EDIT PET triggered:", pet);
 
-    this.petFormData = { ...pet }; // copy values into form
-    this.showDrawer = true;
-  }
+  this.isEditing = true;
+  this.activePetId = pet.id; // <-- VERY IMPORTANT
+  this.petFormData = { ...pet }; // copy values into form
+
+  this.showDrawer = true;
+}
 
   /** ✅ POST Add new pet */
   saveNewPet(): void {
     this.petService.addPet(this.petFormData).subscribe({
       next: () => {
-        alert('✅ Pet added successfully!');
+        alert("✅ Pet added successfully!");
         this.closeDrawer();
         this.loadPets();
       },
-      error: (err) => console.error('Error adding pet:', err)
+      error: (err) => console.error("❌ Error adding pet:", err)
     });
   }
 
-  /** ✅ PUT Update existing pet */
-  updatePet(): void {
-    if (!this.activePetId) return;
-  
-    this.petService.updatePet(this.activePetId, this.petFormData).subscribe({
-      next: () => {
-        alert('✅ Pet updated successfully!');
-        this.closeDrawer();
-        this.loadPets();
-      },
-      error: (err) => console.error('Error updating pet:', err)
-    });
+updatePet(): void {
+  alert("🔵 UPDATE BUTTON CLICKED");   // <-- MUST APPEAR WHEN YOU CLICK UPDATE
+  console.log("🔵 updatePet() triggered");
+
+  if (this.activePetId === null) {
+    alert("❌ ERROR: activePetId is NULL");
+    console.error("❌ activePetId is NULL");
+    return;
   }
 
+  console.log("🟡 Pet ID to update:", this.activePetId);
+  console.log("🟣 Sending data:", this.petFormData);
+
+  this.petService.updatePet(this.activePetId, this.petFormData).subscribe({
+    next: (response) => {
+      alert("✅ Update SUCCESS!");
+      console.log("✅ Backend response:", response);
+
+      this.closeDrawer();
+      this.loadPets();
+    },
+    error: (err) => {
+      alert("❌ Update failed — check console");
+      console.error("❌ Backend update error:", err);
+    }
+  });
+}
+  onSubmit(): void {
+  if (this.isEditing) {
+    this.updatePet();
+  } else {
+    this.saveNewPet();
+  }
+}
   /** ✅ DELETE pet */
   deletePet(id: number): void {
-    if (!confirm('⚠️ Are you sure you want to delete this pet?')) return;
+  if (!confirm("⚠️ Are you sure you want to delete this pet?")) return;
 
-    this.petService.deletePet(id).subscribe({
-      next: () => {
-        alert('🗑️ Pet deleted successfully!');
-        this.loadPets();
-      },
-      error: (err) => console.error('Error deleting pet:', err)
-    });
-  }
-
-  /** ✅ Toggle Available ↔ Adopted */
-  toggleAvailability(pet: Pet): void {
-    const newStatus =
-      pet.availabilityStatus === 'Available' ? 'Adopted' : 'Available';
-
-    this.petService.updatePet(pet.id, { ...pet, availabilityStatus: newStatus }).subscribe({
-      next: () => (pet.availabilityStatus = newStatus)
-    });
-  }
+  this.petService.deletePet(id).subscribe({
+    next: () => {
+      alert("🗑️ Pet deleted successfully!");
+      this.loadPets();
+    },
+    error: (err) => console.error("❌ Error deleting pet:", err)
+  });
+}
 
   /** ✅ Close drawer */
   closeDrawer(): void {
