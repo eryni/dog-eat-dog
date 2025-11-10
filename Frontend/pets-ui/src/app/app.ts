@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header';
+
 import { PetListComponent } from './pet-list/pet-list';
 import { PetDetailsComponent } from './pet-details/pet-details';
 import { Pet } from './models/pet.model';
-
-
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +15,7 @@ import { Pet } from './models/pet.model';
     HeaderComponent,
     PetListComponent,
     PetDetailsComponent,
+    RouterOutlet
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
@@ -44,3 +45,4 @@ export class AppComponent {
     this.showAdminPanel = false;
   }
 }
+

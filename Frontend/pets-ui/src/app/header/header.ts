@@ -1,16 +1,18 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],   // ✅ include both
   templateUrl: './header.html',
   styleUrls: ['./header.css']
 })
 export class HeaderComponent {
+
   @Output() showAdminPanel = new EventEmitter<void>();
-  
+
   isMobileMenuOpen = false;
 
   onShowAdminPanel() {
