@@ -1,0 +1,55 @@
+<header class="sticky top-0 z-50 w-full border-b bg-white shadow-sm">
+  <div class="container mx-auto px-4 flex h-16 items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <svg class="h-8 w-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      <h1 class="text-2xl font-bold text-blue-600">PetAdopt</h1>
+    </div>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center space-x-6">
+      <a routerLink="/" class="text-sm font-medium transition-colors hover:text-blue-600">Home</a>
+      <a routerLink="/about" class="text-sm font-medium transition-colors hover:text-blue-600">About</a>
+      <a routerLink="/contact" class="text-sm font-medium transition-colors hover:text-blue-600">Contact</a>
+
+      <!-- ✅ UPDATED: now navigates using Angular router -->
+      <a
+        routerLink="/admin"
+        class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+        </svg>
+        Admin Panel
+      </a>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div class="md:hidden">
+      <button 
+        (click)="toggleMobileMenu()" 
+        class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div *ngIf="isMobileMenuOpen" class="md:hidden">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
+      <a routerLink="/" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Home</a>
+      <a routerLink="/about" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">About</a>
+      <a routerLink="/contact" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Contact</a>
+
+      <!-- ✅ UPDATED for mobile: goes to /admin -->
+      <a
+        routerLink="/admin"
+        (click)="toggleMobileMenu()"
+        class="w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">
+        Admin Panel
+      </a>
+    </div>
+  </div>
+</header>
