@@ -9,17 +9,19 @@
 
     <!-- Desktop Navigation -->
     <nav class="hidden md:flex items-center space-x-6">
-      <a href="#" class="text-sm font-medium transition-colors hover:text-blue-600">Home</a>
-      <a href="#" class="text-sm font-medium transition-colors hover:text-blue-600">About</a>
-      <a href="#" class="text-sm font-medium transition-colors hover:text-blue-600">Contact</a>
-      <button 
-        (click)="onShowAdminPanel()" 
+      <a routerLink="/" class="text-sm font-medium transition-colors hover:text-blue-600">Home</a>
+      <a routerLink="/about" class="text-sm font-medium transition-colors hover:text-blue-600">About</a>
+      <a routerLink="/contact" class="text-sm font-medium transition-colors hover:text-blue-600">Contact</a>
+
+      <!-- ✅ UPDATED: now navigates using Angular router -->
+      <a
+        routerLink="/admin"
         class="inline-flex items-center px-3 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
         <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
         </svg>
         Admin Panel
-      </button>
+      </a>
     </nav>
 
     <!-- Mobile Navigation -->
@@ -37,14 +39,17 @@
   <!-- Mobile Menu -->
   <div *ngIf="isMobileMenuOpen" class="md:hidden">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t">
-      <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Home</a>
-      <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">About</a>
-      <a href="#" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Contact</a>
-      <button 
-        (click)="onShowAdminPanel(); toggleMobileMenu()" 
+      <a routerLink="/" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Home</a>
+      <a routerLink="/about" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">About</a>
+      <a routerLink="/contact" class="block px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">Contact</a>
+
+      <!-- ✅ UPDATED for mobile: goes to /admin -->
+      <a
+        routerLink="/admin"
+        (click)="toggleMobileMenu()"
         class="w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-blue-600">
         Admin Panel
-      </button>
+      </a>
     </div>
   </div>
 </header>
