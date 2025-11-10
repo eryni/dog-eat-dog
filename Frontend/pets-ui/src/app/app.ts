@@ -1,12 +1,45 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HeaderComponent } from './header/header';
+import { PetListComponent } from './pet-list/pet-list';
+import { PetDetailsComponent } from './pet-details/pet-details';
+import { AdminPanelComponent } from './admin-panel/admin-panel';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [
+    CommonModule,
+    HeaderComponent,
+    PetListComponent,
+    PetDetailsComponent,
+    AdminPanelComponent
+  ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrls: ['./app.css']
 })
-export class App {
-  protected readonly title = signal('pets-ui');
+export class AppComponent {
+  title = 'angular-pet-adoption';
+
+  selectedPet = null;
+  showPetDetails = false;
+  showAdminPanel = false;
+
+  handleViewPetDetails(pet: any): void {
+    this.selectedPet = pet;
+    this.showPetDetails = true;
+  }
+
+  closePetDetails(): void {
+    this.showPetDetails = false;
+    this.selectedPet = null;
+  }
+
+  handleShowAdminPanel(): void {
+    this.showAdminPanel = true;
+  }
+
+  closeAdminPanel(): void {
+    this.showAdminPanel = false;
+  }
 }
