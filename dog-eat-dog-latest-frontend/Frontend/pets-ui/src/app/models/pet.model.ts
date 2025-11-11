@@ -7,7 +7,7 @@ export interface Pet {
   size: string;
   color: string;
   weight: number;
-  imageUrl: string;
+  photoUrl: string;
   healthStatus: string;
   vaccinationStatus: string;
   dewormed: boolean;
@@ -32,7 +32,7 @@ export interface PetFormData {
   size: string;
   color: string;
   weight: number;
-  imageUrl: string;
+  photoUrl: string;
   healthStatus: string;
   vaccinationStatus: string;
   dewormed: boolean;
