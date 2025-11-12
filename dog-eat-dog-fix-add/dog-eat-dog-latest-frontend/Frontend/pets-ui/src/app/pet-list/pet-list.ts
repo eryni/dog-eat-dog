@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Pet } from '../models/pet.model';
 import { PetService } from '../services/pet.service';
 import { PetCardComponent } from '../pet-card/pet-card';
+import { PetDetailsComponent } from '../pet-details/pet-details';
 
 @Component({
   selector: 'app-pet-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, PetCardComponent],
+  imports: [CommonModule, FormsModule, PetCardComponent, PetDetailsComponent],
   templateUrl: './pet-list.html',
   styleUrls: ['./pet-list.css']
 })
@@ -85,6 +86,11 @@ export class PetListComponent implements OnInit {
 
   closeModal(): void {
     this.isOpen = false;
+    this.selectedPet = null;
+  }
+
+  closeDetails(): void {
+    this.showDetails = false;
     this.selectedPet = null;
   }
 }
