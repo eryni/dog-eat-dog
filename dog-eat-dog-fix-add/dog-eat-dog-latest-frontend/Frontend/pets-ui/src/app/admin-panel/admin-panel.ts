@@ -85,7 +85,7 @@ editPet(pet: Pet): void {
   console.log(" EDIT PET triggered:", pet);
 
   this.isEditing = true;
-  this.activePetId = pet.id; // <-- VERY IMPORTANT
+  this.activePetId = pet.id; 
   this.petFormData = { ...pet }; // copy values into form
 
   this.showDrawer = true;
