@@ -1,0 +1,300 @@
+<div class="p-6 space-y-6 bg-gray-50 min-h-screen">
+
+  <div class="flex justify-between items-center">
+    <h1 class="text-2xl font-bold">🐾 Admin Panel</h1>
+
+    <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+            (click)="openAddDrawer()">
+      + Add New Pet
+    </button>
+  </div>
+
+  <div class="flex flex-wrap gap-3 bg-white p-4 rounded-xl shadow">
+    <input type="text"
+           [(ngModel)]="searchTerm"
+           placeholder="Search by name, breed, etc…"
+           class="border px-3 py-2 rounded-lg flex-1 min-w-[250px]">
+
+    <select [(ngModel)]="filterSpecies" class="border px-3 py-2 rounded-lg">
+      <option value="">All Breeds</option>
+      <option *ngFor="let p of pets">{{ p.breed }}</option>
+    </select>
+
+    <select [(ngModel)]="filterStatus" class="border px-3 py-2 rounded-lg">
+      <option value="">All Status</option>
+      <option value="Available">Available</option>
+      <option value="Pending">Pending</option>
+      <option value="Adopted">Adopted</option>
+    </select>
+  </div>
+
+  <div class="bg-white p-4 rounded-xl shadow overflow-auto">
+    <table class="w-full text-left">
+      <thead class="text-gray-500 text-sm border-b">
+      <tr>
+        <th class="p-3"></th>
+        <th class="p-3">Name</th>
+        <th class="p-3">Breed</th>
+        <th class="p-3">Status</th>
+        <th class="p-3 text-right">Adoption Fee</th>
+        <th class="p-3">Intake Date</th>
+        <th class="p-3"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let pet of filteredPets"
+          class="hover:bg-gray-100 border-b cursor-pointer">
+
+        <td class="p-3">
+          <img [src]="pet.photoUrl"
+               class="w-10 h-10 rounded-full object-cover border" />
+        </td>
+
+        <td class="p-3 font-semibold">{{ pet.name }}</td>
+        <td class="p-3">{{ pet.breed }}</td>
+
+        <td class="p-3">
+          <span [ngClass]="{
+            'text-green-600': pet.availabilityStatus === 'Available',
+            'text-yellow-600': pet.availabilityStatus === 'Pending',
+            'text-gray-400': pet.availabilityStatus === 'Adopted'
+          }">●</span>
+          {{ pet.availabilityStatus }}
+        </td>
+
+        <td class="p-3 text-right">₱ {{ pet.adoptionFee }}</td>
+        <td class="p-3 text-gray-500 text-sm">{{ pet.intakeDate | date }}</td>
+
+        <td class="p-3 text-right space-x-2">
+          <button class="px-3 py-1 rounded bg-blue-500 text-white"
+                  (click)="editPet(pet)">Edit</button>
+          <button class="px-3 py-1 rounded bg-red-500 text-white"
+                  (click)="deletePet(pet.id)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+
+<div class="fixed right-0 top-0 h-full w-[400px] bg-white shadow-xl p-6 transition-transform duration-300 overflow-y-auto z-[60]"
+     [ngStyle]="{ transform: showDrawer ? 'translateX(0)' : 'translateX(100%)' }">
+
+
+  <h2 class="text-xl font-bold mb-4">
+    {{ isEditing ? 'Edit Pet' : 'Add New Pet' }}
+  </h2>
+
+<form class="space-y-4">
+
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Name:</label>
+    <input [(ngModel)]="petFormData.name" name="name" class="form-input w-full px-3 py-2 border rounded-lg" />
+  </div>
+
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Breed:</label>
+    <select [(ngModel)]="petFormData.breed" name="breed" class="form-input w-full px-3 py-2 border rounded-lg">
+      <option value="">Select Breed</option>
+      <optgroup label="Dogs">
+        <option>Golden Retriever</option>
+        <option>Pomeranian</option>
+        <option>German Shepherd</option>
+      </optgroup>
+      <optgroup label="Cats">
+        <option>Siamese</option>
+        <option>Persian</option>
+        <option>Maine Coon</option>
+      </optgroup>
+      <optgroup label="Birds">
+        <option>African Grey</option>
+        <option>Budgerigar</option>
+        <option>Cockatiel</option>
+      </optgroup>
+      <optgroup label="Turtles">
+        <option>Red-Eared Slider</option>
+        <option>Painted Turtle</option>
+        <option>Box Turtle</option>
+      </optgroup>
+      <optgroup label="Rabbits">
+        <option>Netherland Dwarf</option>
+      </optgroup>
+    </select>
+  </div>
+
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Image URL:</label>
+    <input [(ngModel)]="petFormData.photoUrl" name="photoUrl" class="form-input w-full px-3 py-2 border rounded-lg" />
+  </div>
+
+
+  <div class="grid grid-cols-2 gap-3">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Age:</label>
+      <input [(ngModel)]="petFormData.age" type="number" name="age" class="form-input w-full px-3 py-2 border rounded-lg" />
+    </div>
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Color:</label>
+      <input [(ngModel)]="petFormData.color" name="color" class="form-input w-full px-3 py-2 border rounded-lg" />
+    </div>
+  </div>
+
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Sex:</label>
+    <select [(ngModel)]="petFormData.sex" name="sex" class="form-input w-full px-3 py-2 border rounded-lg">
+      <option value="">Select Sex</option>
+      <option>Male</option>
+      <option>Female</option>
+    </select>
+  </div>
+
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Size:</label>
+    <select [(ngModel)]="petFormData.size" name="size" class="form-input w-full px-3 py-2 border rounded-lg">
+      <option value="">Select Size</option>
+      <option>Small</option>
+      <option>Medium</option>
+      <option>Large</option>
+    </select>
+  </div>
+
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Weight (kg):</label>
+    <input [(ngModel)]="petFormData.weight" type="number" name="weight" class="form-input w-full px-3 py-2 border rounded-lg" />
+  </div>
+
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Adoption Fee (₱):</label>
+    <input [(ngModel)]="petFormData.adoptionFee" type="number" name="adoptionFee" class="form-input w-full px-3 py-2 border rounded-lg" />
+  </div>
+
+
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">Description:</label>
+    <textarea [(ngModel)]="petFormData.description" name="description" class="form-input w-full px-3 py-2 border rounded-lg" rows="3"></textarea>
+  </div>
+
+
+  <div class="border-t pt-4">
+    <h3 class="text-lg font-semibold mb-2">Health & Medical</h3>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Health Status:</label>
+      <select [(ngModel)]="petFormData.healthStatus" name="healthStatus" class="form-input w-full px-3 py-2 border rounded-lg">
+        <option value="">Select</option>
+        <option>Healthy</option>
+        <option>Injured</option>
+        <option>Recovering</option>
+        <option>Special Needs</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Vaccination Status:</label>
+      <select [(ngModel)]="petFormData.vaccinationStatus" name="vaccinationStatus" class="form-input w-full px-3 py-2 border rounded-lg">
+        <option value="">Select</option>
+        <option>Complete</option>
+        <option>Partial</option>
+        <option>None</option>
+      </select>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mt-2">
+      <label class="flex items-center space-x-2">
+        <input type="checkbox" [(ngModel)]="petFormData.dewormed" name="dewormed" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+        <span class="text-sm text-gray-700">Dewormed</span>
+      </label>
+      <label class="flex items-center space-x-2">
+        <input type="checkbox" [(ngModel)]="petFormData.neuteredSpayed" name="neuteredSpayed" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+        <span class="text-sm text-gray-700">Neutered/Spayed</span>
+      </label>
+    </div>
+
+    <div class="mt-3">
+      <label class="block text-sm font-medium text-gray-700 mb-1">Medical Notes:</label>
+      <textarea [(ngModel)]="petFormData.medicalNotes" name="medicalNotes" class="form-input w-full px-3 py-2 border rounded-lg" rows="2"></textarea>
+    </div>
+  </div>
+
+
+  <div class="border-t pt-4">
+    <h3 class="text-lg font-semibold mb-2">Behavior & Training</h3>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Temperament:</label>
+      <select [(ngModel)]="petFormData.temperament" name="temperament" class="form-input w-full px-3 py-2 border rounded-lg">
+        <option value="">Select Temperament</option>
+        <option>Friendly</option>
+        <option>Calm</option>
+        <option>Playful</option>
+        <option>Gentle</option>
+        <option>Aggressive</option>
+      </select>
+    </div>
+
+    <div class="flex items-center space-x-2 mt-2">
+      <input type="checkbox" [(ngModel)]="petFormData.houseTrained" name="houseTrained" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+      <label class="text-sm text-gray-700">House Trained</label>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Training Level:</label>
+      <select [(ngModel)]="petFormData.trainingLevel" name="trainingLevel" class="form-input w-full px-3 py-2 border rounded-lg">
+        <option value="">Select Training Level</option>
+        <option>Basic care</option>
+        <option>Leash trained</option>
+        <option>Indoor trained</option>
+        <option>Basic tricks</option>
+      </select>
+    </div>
+  </div>
+
+
+  <div class="border-t pt-4">
+    <label class="block text-sm font-medium text-gray-700 mb-1">Location:</label>
+    <input [(ngModel)]="petFormData.location" name="location" class="form-input w-full px-3 py-2 border rounded-lg" />
+
+    <label class="block text-sm font-medium text-gray-700 mb-1 mt-2">Status:</label>
+    <select [(ngModel)]="petFormData.availabilityStatus" name="availabilityStatus" class="form-input w-full px-3 py-2 border rounded-lg">
+      <option>Available</option>
+      <option>Pending</option>
+      <option>Adopted</option>
+    </select>
+
+    <label class="block text-sm font-medium text-gray-700 mb-1 mt-2">Intake Date:</label>
+    <input [(ngModel)]="petFormData.intakeDate" type="date" name="intakeDate" class="form-input w-full px-3 py-2 border rounded-lg" />
+  </div>
+
+
+  <div class="border-t pt-4">
+    <label class="block text-sm font-medium text-gray-700 mb-1">Contact Info:</label>
+    <input [(ngModel)]="petFormData.contactInfo" name="contactInfo" class="form-input w-full px-3 py-2 border rounded-lg" />
+  </div>
+
+
+  <button type="button"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg"
+          (click)="onSubmit()">
+    {{ isEditing ? 'Update Pet' : 'Add Pet' }}
+  </button>
+
+  <button type="button"
+          class="mt-2 w-full bg-gray-300 hover:bg-gray-400 text-black py-2 rounded-lg"
+          (click)="closeDrawer()">
+    Cancel
+  </button>
+</form>
+
+</div>
